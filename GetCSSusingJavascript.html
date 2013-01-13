@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+	<meta charset="utf-8" />
+	<style>
+		#container #content {position:relative;width:900px;background-color: yellow;}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="content" style="background-color:green;">
+			Foo
+		</div>
+		<script>
+			var getStyle = function(id,style){
+				try{
+					var obj = document.getElementById(id);
+					getStyle.getCSS = getStyle.getCSS||(function(){
+							return  window.getComputedStyle?document.defaultView.getComputedStyle(obj, null):obj.currentStyle;
+						})();
+					style = style.replace(/\-(\w)/g, function (strMatch, p1) {
+		                return p1.toUpperCase();
+		            });
+		            return getStyle.getCSS[style];
+	            }
+	            catch(e){return void 0;}
+			};
+			console.log(getStyle('content','background-color'));
+		</script>
+	</div>
+</body>
+</html>
+
+
+
+

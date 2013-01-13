@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang='ko'>
+<head>
+  <meta charset="utf-8" />
+    <script>
+      var ready = (function(r){
+        var callback;
+        var self;
+        var ready = function(fn){
+          return new ready.fn.init(fn);
+        }
+        ready.fn = ready.prototype = {
+          isReady: false,
+          DOMContentLoaded: function(){
+            if(document.addEventListener){
+              document.removeEventListener('DOMContentLoaded',self.DOMContentLoaded, false);
+              self.ready();
+            }
+            else{
+              document.detachEvent('onreadystatechange',self.DOMContentLoaded);
+              self.ready();
+            }
+          },
+          init: function(fn){
+            self = this;
+            callback = fn;
+            if(document.addEventListener){
+              document.addEventListener('DOMContentLoaded',self.DOMContentLoaded,false);
+            }
+            else{
+              document.attachEvent('onreadystatechange',self.DOMContentLoaded);
+              var top = false;
+									
+              try{
+                top = window.frameElement == null && document.documentElement;
+              }
+              catch(e){}
+
+              if(top && top.doScroll){
+                (function doScrollCheck(){
+                  if(!self.isREady){
+                    try{
+                      top.doScroll('left');
+                    }
+                    catch(e){
+                      eturn setTimeout(doScrollCheck,1);
+                    }
+                    self.ready();
+                  }
+                })();
+              }
+          },
+          ready: function(){
+            if(!self.isReady){
+              callback.apply(r);
+              isReady = true;
+            }
+          }
+        }
+        ready.fn.init.prototype = ready.fn;
+          return ready;
+        )(ready);
+    ready(function(){
+      console.log(document.getElementById('container').innerHTML);
+    });
+	</script>
+</head>
+<body>
+	<div id="container">
+		Foo Bar Qaz
+	</div>
+</body>
+</html>
+
+
+
+
